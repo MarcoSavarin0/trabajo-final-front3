@@ -1,22 +1,39 @@
-import React from "react";
-
-
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 const Card = ({ name, username, id }) => {
+    const [fav, setFav] = useState(false)
 
-  const addFav = ()=>{
-    // Aqui iria la logica para agregar la Card en el localStorage
-  }
+    useEffect(() => {
+        const favoritos = localStorage.getItem("favs")
+        setFav(favoritos && favoritos.includes(id))
+    }, [id])
 
-  return (
-    <div className="card">
-        {/* En cada card deberan mostrar en name - username y el id */}
+    const addFav = (id, name, username) => {
+        if (!localStorage.getItem('favs')) localStorage.setItem('favs', JSON.stringify([]))
+        localStorage.setItem('favs', JSON.stringify([...JSON.parse(localStorage.getItem('favs')), { id, name, username }]))
+        setFav(true)
+    }
+    const removeFav = (id) => {
+        if (!localStorage.getItem('favs')) return
+        const arrayDentistas = JSON.parse(localStorage.getItem('favs'))
+        const newArrayDentistas = arrayDentistas.filter(dentista => dentista.id !== id)
+        localStorage.setItem('favs', JSON.stringify(newArrayDentistas))
+        setFav(false)
+    }
 
-        {/* No debes olvidar que la Card a su vez servira como Link hacia la pagina de detalle */}
-
-        {/* Ademas deberan integrar la logica para guardar cada Card en el localStorage */}
-        <button onClick={addFav} className="favButton">Add fav</button>
-    </div>
-  );
+    return (
+        <div className="card">
+            <h3>{name}</h3>
+            <h4>{username}</h4>
+            <Link to={`/dentist/${id}`}>Detalle</Link>
+            {
+                fav ? (
+                    <button className="deleteButton" onClick={() => removeFav(id)}>Quitar de favoritos</button>
+                ) : (<button className="favButton" onClick={() => addFav(id, name, username)}>Favorito</button>)
+            }
+        </div>
+    );
 };
 
 export default Card;

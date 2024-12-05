@@ -12,12 +12,19 @@ code {
     monospace;
 }
 .favButton{
-  background-color: rgba(136, 136, 136, 0.116);
+  background-color: rgb(105, 248, 92);
   padding: 10px;
   border: none;
   width: 100%;
   cursor: pointer;
 }
+.deleteButton{
+    background-color: rgba(255, 0, 0, 0.832);
+    padding: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+  }
 
 h1{
   text-align: center;
@@ -69,7 +76,9 @@ form{
   height: 100px;
   margin: 0 auto;
 }
-
+.form {
+    margin: 100px 0 300px 0 ;
+}
 .card{
   display: flex;
   justify-content: space-around;
